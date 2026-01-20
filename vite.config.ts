@@ -4,8 +4,6 @@
   import path from 'path';
 
   export default defineConfig({
-     // 🔴 REQUIRED for GitHub Pages
-  base: '/Simranvirsinghdataanalystportfoliowebsite/',
     plugins: [react()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
@@ -54,7 +52,7 @@
     },
     build: {
       target: 'esnext',
-      outDir: 'dist', // 🔴 CHANGE from "build" to "dist"
+      outDir: 'build',
     },
     server: {
       port: 3000,
