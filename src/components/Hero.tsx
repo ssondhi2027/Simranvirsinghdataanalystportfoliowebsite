@@ -1,5 +1,5 @@
 import { ArrowRight, Download } from 'lucide-react';
-import profileImage from 'figma:asset/8297c68ac7c81a35c2f93c04361a02923d0088c0.png';
+import profileImage from 'figma:asset/7e5798758fc0a11df587d1e7f75a3a74c636e8d5.png';
 
 export function Hero() {
   const scrollToSection = (id: string) => {
