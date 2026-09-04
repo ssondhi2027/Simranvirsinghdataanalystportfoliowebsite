@@ -1,5 +1,16 @@
-import { ArrowRight, Download } from 'lucide-react';
-import profileImage from 'figma:asset/7e5798758fc0a11df587d1e7f75a3a74c636e8d5.png';
+import { ArrowRight, Download, Github, Linkedin } from 'lucide-react';
+import profileImage from '../assets/7e5798758fc0a11df587d1e7f75a3a74c636e8d5.png';
+
+const wallPhrases = [
+  'DATA ANALYST.',
+  'ANALYTICS ENGINEER.',
+  'PROBLEM SOLVER.',
+  'DBT CORE.',
+  'BIGQUERY.',
+  'SQL.',
+  'PYTHON.',
+  'POWER BI.',
+];
 
 export function Hero() {
   const scrollToSection = (id: string) => {
@@ -9,50 +20,84 @@ export function Hero() {
     }
   };
 
-  return (
-    <section id="home" className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 to-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <p className="text-blue-600 font-medium">Data Analyst</p>
-              <h1 className="text-5xl lg:text-6xl text-gray-900">
-                Simranvir Singh Sondhi
-              </h1>
-            </div>
-            <p className="text-xl text-gray-600">
-              Data Analyst graduate transforming complex datasets into actionable business insights through advanced analytics, visualization, and forecasting. Experienced in Power BI, Tableau, SQL, Python, and real-world data storytelling.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button 
-                onClick={() => scrollToSection('portfolio')}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-              >
-                View Projects
-                <ArrowRight size={20} />
-              </button>
-              <a 
-                href="https://github.com/ssondhi2027" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
-              >
-                <Download size={20} />
-                View GitHub
-              </a>
-            </div>
-          </div>
+  const wallRows = Array.from({ length: 12 }, (_, row) =>
+    Array.from({ length: 8 }, (_, i) => wallPhrases[(row * 3 + i) % wallPhrases.length]),
+  );
 
-          <div className="relative">
-            <div className="aspect-[4/3] bg-gray-200 rounded-2xl overflow-hidden shadow-xl">
-              <img
-                src={profileImage}
-                alt="Simranvir Singh Sondhi - Graduation Photo"
-                className="w-full h-full object-cover"
-              />
-            </div>
+  return (
+    <section id="home" className="wf-hero">
+      <div className="wf-wordwall" aria-hidden="true">
+        {wallRows.map((row, rowIndex) => (
+          <div key={rowIndex} className="wf-wordwall-row">
+            {[...row, ...row].map((phrase, i) => (
+              <span key={i}>{phrase}</span>
+            ))}
           </div>
+        ))}
+      </div>
+      <div className="wf-hero-scrim" aria-hidden="true" />
+
+      <div className="wf-hero-content wf-shell">
+        <div>
+        <p className="wf-eyebrow wf-eyebrow--blue">
+          Toronto, ON · Open to Data Analyst &amp; Analytics Engineering roles
+        </p>
+        <h1 className="wf-hero-name">Simranvir Singh Sondhi</h1>
+        <p className="wf-hero-tagline">
+          <span>Data Analyst.</span>
+          <span>Analytics Engineer.</span>
+          <span>Problem Solver.</span>
+        </p>
+        <p className="wf-hero-value">
+          I turn messy operational and regulatory data into decisions people can act on. Built a
+          bitemporal Canadian bank regulatory reporting platform in dbt Core on BigQuery spanning
+          30 years of OSFI filings, governed by a BCBS 239-referenced control framework, and
+          deployed as a live React and AWS Lambda dashboard.
+        </p>
+        <p className="wf-hero-skills">
+          SQL • Python • dbt Core • BigQuery • Power BI • Tableau • AWS • Terraform
+        </p>
+        <div className="wf-hero-actions">
+          <button onClick={() => scrollToSection('projects')} className="wf-btn wf-btn--solid">
+            View Projects
+            <ArrowRight size={16} />
+          </button>
+          <a href="/resume.pdf" download className="wf-btn wf-btn--outline">
+            Download Resume
+            <Download size={16} />
+          </a>
+          <a
+            href="https://github.com/ssondhi2027"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="wf-btn wf-btn--outline"
+          >
+            GitHub
+            <Github size={16} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/simranvir-singh-s-300254136/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="wf-btn wf-btn--outline"
+          >
+            LinkedIn
+            <Linkedin size={16} />
+          </a>
         </div>
+        </div>
+
+        <div className="wf-hero-portrait">
+          <div className="wf-hero-portrait-glow" aria-hidden="true" />
+          <img src={profileImage} alt="Simranvir Singh Sondhi" />
+        </div>
+      </div>
+
+      <div className="wf-stage-bar" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
       </div>
     </section>
   );

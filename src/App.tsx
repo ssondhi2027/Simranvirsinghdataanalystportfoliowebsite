@@ -1,22 +1,20 @@
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { Features } from './components/Features';
-import { HowItWorks } from './components/HowItWorks';
-import { Testimonials } from './components/Testimonials';
+import { About } from './components/About';
+import { Impact } from './components/Impact';
 import { Portfolio } from './components/Portfolio';
-import { FAQ } from './components/FAQ';
+import { Education } from './components/Education';
 import { CTA } from './components/CTA';
 import { Footer } from './components/Footer';
 export default function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="wf-root">
       <Navbar />
       <Hero />
-      <Features />
-      <HowItWorks />
-      <Testimonials />
+      <About />
+      <Impact />
       <Portfolio />
-      <FAQ />
+      <Education />
       <CTA />
       <Footer />
     </div>
