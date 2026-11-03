@@ -1,6 +1,8 @@
 [build]
-  # Command Netlify runs to build your project
   command = "npm run build"
+  publish = "dist"
 
-  # Directory Netlify will publish to the web
-  publish = "build"
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

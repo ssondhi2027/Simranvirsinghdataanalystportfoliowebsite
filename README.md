@@ -1,11 +1,16 @@
+# Simranvir Singh Sondhi · Portfolio
 
-  # Portfolio Website for Data Analyst
+Single-page portfolio: Vite + vanilla JS + three.js. All copy lives in `src/content.js`.
 
-  This is a code bundle for Portfolio Website for Data Analyst. The original project is available at https://www.figma.com/design/s9fStLae0lY31ZatSQd92l/Portfolio-Website-for-Data-Analyst.
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # production build into dist/ (deployed by Netlify)
+```
 
-  ## Running the code
+The hero portrait `public/portrait.svg` is generated from `portrait.png`:
 
-  Run `npm i` to install the dependencies.
-
-  Run `npm run dev` to start the development server.
-  
+```bash
+pip install rembg onnxruntime vtracer scipy pillow cairosvg
+python tools/make_portrait.py            # --scale 2 for more detail
+```

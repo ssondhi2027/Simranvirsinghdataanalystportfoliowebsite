@@ -1,18 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simranvir Singh Sondhi</title>
+    <meta name="description" content="Simranvir Singh Sondhi — Data Analyst and Analytics Engineer in Toronto. dbt, SQL, Python, Power BI and AWS projects across banking regulation, aviation, retail and supply chain." />
+    <meta name="theme-color" content="#0A0F1E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Simranvir Singh Sondhi · Data Analyst · Analytics Engineer" />
+    <meta property="og:description" content="I turn messy operational and regulatory data into decisions people can act on." />
+    <meta property="og:image" content="/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/portrait.svg" as="image" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap nav__inner">
+        <a class="brand" href="#top" aria-label="Simranvir, back to top"><span class="brand__mark" aria-hidden="true"></span>Simranvir</a>
+        <nav aria-label="Sections">
+          <a href="#work">Work</a>
+          <a href="#stack" class="nav__stack">Stack</a>
+          <a href="#path">Path</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Portfolio Website for Data Analyst</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    </head>
+    <main id="top">
+      <section class="hero" id="hero" aria-labelledby="hero-name">
+        <canvas class="hero__canvas" aria-hidden="true"></canvas>
+        <div class="hero__fallback" aria-hidden="true"></div>
+        <div class="hero__veil" aria-hidden="true"></div>
+        <div class="wrap hero__grid">
+          <div class="hero__text" data-mount="hero"></div>
+          <figure class="portrait" aria-label="Illustrated portrait of Simranvir">
+            <div class="portrait__glow" aria-hidden="true"><span class="portrait__ring"></span></div>
+            <img class="portrait__img" src="/portrait.svg" width="1420" height="1695" alt="Illustrated portrait of Simranvir Singh Sondhi in a turban, glasses and dark blazer, chin resting on one hand" decoding="async" fetchpriority="high" />
+            <div class="chip chip--fit"><strong>R² 0.98</strong><span>forecast fit</span></div>
+            <div class="chip chip--open"><i aria-hidden="true"></i>Open to roles · Toronto</div>
+          </figure>
+        </div>
+        <p class="hero__hint" aria-hidden="true"><i></i>move your cursor across the data field</p>
+      </section>
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+      <section class="wrap metrics" aria-label="Key numbers" data-reveal data-mount="metrics"></section>
+
+      <section class="wrap section" id="work" aria-labelledby="work-h">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow">01 / Selected work</p>
+          <h2 id="work-h">Selected work</h2>
+        </header>
+        <div class="projects" data-mount="projects"></div>
+      </section>
+
+      <section class="wrap section" id="stack" aria-labelledby="stack-h">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow">02 / Tools</p>
+          <h2 id="stack-h">The stack</h2>
+        </header>
+        <div class="stack" data-reveal>
+          <dl class="skills" data-mount="skills"></dl>
+          <div class="sphere" aria-label="Tools I use, as a rotating tag cloud">
+            <div class="sphere__bg" aria-hidden="true"></div>
+            <ul class="sphere__tags" data-mount="sphere"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section" id="path" aria-labelledby="path-h">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow">03 / Experience &amp; education</p>
+          <h2 id="path-h">Path so far</h2>
+        </header>
+        <ol class="timeline" data-reveal data-mount="timeline"></ol>
+        <h3 class="certs__h" data-reveal>Certifications</h3>
+        <ul class="certs" data-reveal data-mount="certs"></ul>
+        <p class="courses" data-reveal data-mount="courses"></p>
+      </section>
+
+      <section class="wrap section" id="contact" aria-labelledby="contact-h">
+        <div class="contact" data-reveal data-mount="contact"></div>
+      </section>
+    </main>
+
+    <footer class="wrap footer" data-mount="footer"></footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
