@@ -3,6 +3,7 @@ import { render } from './render.js';
 import { initTilt } from './tilt.js';
 import { initCube } from './cube.js';
 import { initSphere } from './sphere.js';
+import { initMotion } from './motion.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -15,6 +16,7 @@ initTilt(reduced);
 initCube(reduced);
 initSphere(reduced);
 initReveal();
+initMotion(reduced);
 initCopy();
 
 // Sections are fully visible without JS. Only those still below the fold get the tilt-up

@@ -1,6 +1,7 @@
 import {
-  AmbientLight, BoxGeometry, Color, DirectionalLight, Fog, GridHelper, InstancedMesh, MeshStandardMaterial,
-  Object3D, PerspectiveCamera, Plane, PointLight, Raycaster, Scene, Vector2, Vector3, WebGLRenderer,
+  AdditiveBlending, AmbientLight, BoxGeometry, BufferAttribute, BufferGeometry, Color, DirectionalLight, Fog,
+  GridHelper, InstancedMesh, MeshStandardMaterial, Object3D, PerspectiveCamera, Plane, PointLight, Points,
+  PointsMaterial, Raycaster, Scene, Vector2, Vector3, WebGLRenderer,
 } from 'three';
 
 const INK = 0x0a0f1e;
@@ -11,6 +12,9 @@ const SPACING = 0.62;
 const MIN_H = 0.06;
 const BUMP_SIGMA = 1.5;
 const BUMP_AMP = 2.6;
+const INTRO_S = 2.2; // seconds for the bars to rise out of the floor on load
+const SPARKS = 150;
+const SPARK_TOP = 7;
 
 export function initHero(reduced) {
   const hero = document.getElementById('hero');
@@ -44,10 +48,45 @@ export function initHero(reduced) {
   grid.position.y = -0.01;
   scene.add(grid);
 
-  const geometry = new BoxGeometry(0.46, 1, 0.46).translate(0, 0.5, 0);
-  const material = new MeshStandardMaterial({ roughness: 0.42, metalness: 0.2 });
   const dummy = new Object3D();
   const color = new Color();
+
+  // Sparks drifting up off the bars, cyan near the floor and amber higher up.
+  const sparkPos = new Float32Array(SPARKS * 3);
+  const sparkCol = new Float32Array(SPARKS * 3);
+  const sparkSpeed = new Float32Array(SPARKS);
+  for (let i = 0; i < SPARKS; i++) {
+    sparkPos[i * 3] = (Math.random() - 0.5) * 44;
+    sparkPos[i * 3 + 1] = Math.random() * SPARK_TOP;
+    sparkPos[i * 3 + 2] = (Math.random() - 0.5) * 18;
+    sparkSpeed[i] = 0.25 + Math.random() * 0.5;
+  }
+  const sparkGeo = new BufferGeometry();
+  sparkGeo.setAttribute('position', new BufferAttribute(sparkPos, 3));
+  sparkGeo.setAttribute('color', new BufferAttribute(sparkCol, 3));
+  const sparks = new Points(sparkGeo, new PointsMaterial({
+    size: 0.09, vertexColors: true, transparent: true, opacity: 0.85, blending: AdditiveBlending, depthWrite: false,
+  }));
+  scene.add(sparks);
+  function stepSparks(t, dt) {
+    for (let i = 0; i < SPARKS; i++) {
+      let y = sparkPos[i * 3 + 1] + sparkSpeed[i] * dt;
+      if (y > SPARK_TOP) y = 0;
+      sparkPos[i * 3 + 1] = y;
+      sparkPos[i * 3] += Math.sin(t * 0.6 + i) * 0.12 * dt;
+      // Fade in off the floor and out at the top.
+      const n = y / SPARK_TOP;
+      color.lerpColors(MID, HIGH, n).multiplyScalar(Math.sin(n * Math.PI));
+      sparkCol[i * 3] = color.r;
+      sparkCol[i * 3 + 1] = color.g;
+      sparkCol[i * 3 + 2] = color.b;
+    }
+    sparkGeo.attributes.position.needsUpdate = true;
+    sparkGeo.attributes.color.needsUpdate = true;
+  }
+
+  const geometry = new BoxGeometry(0.46, 1, 0.46).translate(0, 0.5, 0);
+  const material = new MeshStandardMaterial({ roughness: 0.42, metalness: 0.2 });
 
   let mesh, cols, rows, aimX, positions;
   // Matches the CSS breakpoint where the hero text stacks under the portrait.
@@ -81,8 +120,14 @@ export function initHero(reduced) {
   const hit = new Vector3();
 
   let lastT = 4;
+  let introT = reduced ? INTRO_S : 0;
   function frame(t, dt) {
     lastT = t;
+    introT = Math.min(introT + dt, INTRO_S);
+    const intro = introT / INTRO_S;
+    // A bright ridge that sweeps left to right across the field every few seconds.
+    const sweep = reduced ? -99 : ((t * 0.14) % 1.5 - 0.25) * cols;
+    stepSparks(t, dt);
     const k = reduced ? 1 : 1 - Math.exp(-dt * 6);
     mouse.ex += (mouse.x - mouse.ex) * k;
     mouse.ey += (mouse.y - mouse.ey) * k;
@@ -110,10 +155,18 @@ export function initHero(reduced) {
           + 0.42 * Math.sin(z * 0.41 - t * 0.65)
           + 0.32 * Math.sin((x + z) * 0.21 + t * 0.45)
           + (x / cols) * 2.1;
+        const ds = x - sweep;
+        const pulse = Math.exp(-(ds * ds) / 7);
+        h += 0.6 * pulse;
         if (bump.strength > 0.001) {
           const dx = px - bump.ex;
           const dz = pz - bump.ez;
           h += BUMP_AMP * bump.strength * Math.exp(-(dx * dx + dz * dz) / twoSigma2);
+        }
+        if (intro < 1) {
+          // Columns rise in a left-to-right wave, each with an ease-out.
+          const rise = Math.min(Math.max(intro * 1.6 - (x / cols) * 0.6, 0), 1);
+          h *= 1 - (1 - rise) ** 3;
         }
         h = Math.max(h, MIN_H);
         dummy.position.set(px, 0, pz);
@@ -121,7 +174,7 @@ export function initHero(reduced) {
         dummy.updateMatrix();
         mesh.setMatrixAt(i, dummy.matrix);
 
-        const n = Math.min(h / 4.6, 1);
+        const n = Math.min(h / 4.6 + pulse * 0.16, 1);
         if (n < 0.5) color.lerpColors(LOW, MID, n * 2);
         else color.lerpColors(MID, HIGH, (n - 0.5) * 2);
         mesh.setColorAt(i, color);
